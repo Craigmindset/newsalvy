@@ -103,6 +103,9 @@ export function FounderSection() {
                 alt="Founder"
                 className="w-full h-full object-cover rounded-2xl shadow-xl"
               />
+              <div className="absolute bottom-0 left-0 w-full bg-black/60 text-white text-center py-2 text-sm font-medium rounded-b-2xl">
+                Salvation Alibor, Founder & President
+              </div>
             </div>
           </div>
         </div>
