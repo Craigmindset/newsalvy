@@ -50,7 +50,7 @@ export function EcosystemSection() {
           </h2>
           <p className="text-foreground/60 text-lg  ">
             A comprehensive platform designed to support every stage of your
-            venture journey
+            venture journey - from ideation to scaling.
           </p>
         </div>
 
