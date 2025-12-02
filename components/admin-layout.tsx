@@ -1,0 +1,107 @@
+"use client"
+
+import type React from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { LogOut, Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "@/lib/auth-context"
+import Link from "next/link"
+
+const ADMIN_NAV_ITEMS = [
+  { label: "Overview", href: "/admin/overview", icon: "📊" },
+  { label: "User Management", href: "/admin/user-management", icon: "👥" },
+  { label: "Founder Application", href: "/admin/founder-application", icon: "📝" },
+  { label: "Investors Application", href: "/admin/investors-application", icon: "💼" },
+  { label: "Partners Application", href: "/admin/partners-application", icon: "🤝" },
+]
+
+export function AdminLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const { isAuthenticated, email, logout, checkAuth } = useAuth()
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Check authentication on mount
+    if (!checkAuth()) {
+      router.push("/admin/login")
+    } else {
+      setIsLoading(false)
+    }
+  }, [checkAuth, router])
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">Loading...</div>
+  }
+
+  const handleLogout = () => {
+    logout()
+    router.push("/admin/login")
+  }
+
+  return (
+    <div className="flex h-screen bg-background">
+      {/* Sidebar */}
+      <aside
+        className={`${
+          isSidebarOpen ? "w-64" : "w-0"
+        } bg-card border-r border-border transition-all duration-300 overflow-hidden`}
+      >
+        <div className="p-6">
+          <Link href="/" className="flex items-center gap-2 mb-8">
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+              <span className="text-lg font-bold text-primary-foreground">SV</span>
+            </div>
+            <span className="font-bold text-foreground">Salvy</span>
+          </Link>
+
+          <nav className="space-y-2">
+            {ADMIN_NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-secondary transition-colors text-foreground/70 hover:text-foreground"
+              >
+                <span className="text-xl">{item.icon}</span>
+                <span className="font-medium">{item.label}</span>
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Logout Button */}
+        <div className="absolute bottom-6 left-6 right-6">
+          <Button onClick={handleLogout} variant="outline" className="w-full flex items-center gap-2 bg-transparent">
+            <LogOut className="w-4 h-4" />
+            Logout
+          </Button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Bar */}
+        <header className="bg-card border-b border-border px-6 py-4 flex items-center justify-between">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="p-2 hover:bg-secondary rounded-lg transition-colors"
+          >
+            {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <p className="text-sm font-medium text-foreground">Admin User</p>
+              <p className="text-xs text-foreground/60">{email}</p>
+            </div>
+          </div>
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto">
+          <div className="p-6">{children}</div>
+        </main>
+      </div>
+    </div>
+  )
+}
