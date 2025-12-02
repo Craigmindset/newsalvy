@@ -5,12 +5,13 @@ import { EcosystemSection } from "@/components/ecosystem-section";
 import { FounderSection } from "@/components/founder-section";
 import { Footer } from "@/components/footer";
 import Progress from "@/components/progress-section";
-
+import { NewHeroSection } from "@/components/newhero-section";
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
       <HeroSection />
+
       <CarouselSection />
       <EcosystemSection />
       <FounderSection />

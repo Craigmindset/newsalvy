@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 const HERO_IMAGES = ["/hero0.png", "/herox.png", "/hero3.png"];
 
-export function HeroSection() {
+export function NewHeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const WORDS = ["Startups", "Entrepreneurs", "Founders"];
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -44,14 +44,12 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative w-full h-full overflow-hidden">
+    <section className="relative w-full min-h-screen bg-background overflow-hidden">
       {/* Background Image with Low Opacity */}
       <div
-        className="absolute inset-0  bg-black opacity-10"
+        className="absolute inset-0 bg-cover bg-center opacity-10"
         style={{
           backgroundImage: `url('/background.jpg')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
         }}
       />
 
@@ -102,7 +100,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Column - Image Slider */}
-          <div className="relative h-96  min-h-96 md:min-h-screen flex items-center  justify-center">
+          <div className="relative h-96 lg:h-full min-h-96 lg:min-h-screen flex items-center justify-center">
             <div className="relative w-full h-full p-8 rounded-2xl overflow-hidden ">
               {HERO_IMAGES.map((image, index) => (
                 <div
